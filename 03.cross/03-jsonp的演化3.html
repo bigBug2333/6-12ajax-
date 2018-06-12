@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <button>获取数据</button>
+
+  <script>
+
+    var btn = document.querySelector("button");
+    btn.onclick = function() {
+      jsonp("http://192.168.34.49/day05/05-cross/data.php", function(info) {
+        console.log(info);
+        //后续可以继续渲染页面
+      });
+    } 
+    
+    //需求： 封装一个方法，专门用于发送jsonp请求，专门生成script
+    function jsonp(url, fn) {
+      //1. 创建script标签
+      var script = document.createElement("script");
+      //2. 拼地址
+      var fnName = "fn" + new Date().valueOf();
+      window[fnName] = fn;//对外暴漏的函数名  fn12879812791827
+      script.src = url + "?callback="+fnName;
+      document.body.appendChild(script);
+    }
+
+  </script>
+  <!-- <script src="http://api.com/day05/05-cross/data.php"></script> -->
+  <!-- http://192.168.34.39/day05/05-cross/data.php -->
+</body>
+</html>
+
+
